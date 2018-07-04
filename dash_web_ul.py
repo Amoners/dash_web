@@ -71,7 +71,7 @@ app.layout = html.Div(children=[
                 html.Hr(style={'border-color': '#ddd'}),
                 html.Ul([
                     html.Li(dcc.Link(html.A('Exchanges List'),  href='/markets/exchanges'), className='exchanges'),
-                    html.Li(dcc.Link(html.A('trading volume', className='chart_link'), href='/markets/volume'), className='volume'),
+                    html.Li(dcc.Link(html.A(id='volume', children='trading volume', className='chart_link'), href='/markets/volume'), className='volume'),
                     html.Li(dcc.Link(html.A('rank', className='chart_link'), href='/markets/rank'),  className='rank'),
                     html.Li(dcc.Link(html.A('price',  className='chart_link'), href='/markets/price'),className='price'),
                     html.Li(dcc.Link(html.A('Price + Volume', className='chart_link'), href='/markets/price_volume'),
@@ -121,7 +121,7 @@ app.layout = html.Div(children=[
 
 
 def create_div(pathname):
-    if pathname is None:
+    if pathname is '/' or pathname is None:
         pass
     else:
         types = pathname.split('/')[2]

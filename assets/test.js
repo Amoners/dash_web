@@ -1,4 +1,1 @@
- $(document).click(function (e) {
-                var v_id = $(e.target).attr('class');
-                $("." + v_id).addClass('active');
-                });
+url = "http://69.171.66.100/api.html";
