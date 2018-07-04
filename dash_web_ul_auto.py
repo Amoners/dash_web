@@ -4,35 +4,13 @@ import dash_html_components as html
 import dash_core_components as dcc
 from dash.dependencies import Input, Output
 import keywordsJson as kwj
-import json
+
 
 app = dash.Dash(__name__, static_folder='assets')
 
 colors = {
     'background': '#000000',
     'text': '#ffffff'
-}
-
-all_types = {
-    'exchanges': 'exchanges',
-    'volume': 'trading volume',
-    'rank': 'Exchanges ranking',
-    'price': 'price',
-    'price_volume': 'price and volume',
-    'market_cap': 'market capitalization',
-    'tradespm': 'Number of trades per minute',
-    'volatility': 'price volatility',
-    'arbitrage': 'markets arbitrage table',
-    'books': 'Combined order book',
-    'spread': 'Bid-ask spread',
-    'bidask_sum': 'Bid/ask sum within 10% range from the price',
-    'hashrate': 'hashrate',
-    'difficulty': 'mining difficulty',
-    'size': 'blocks size',
-    'block_version': 'blocks version',
-    'tx_count': 'Number of transactions',
-    'block_time': 'Average time to mine a block in minutes',
-    'block_size_votes': 'Block size votes'
 }
 
 app.css.config.serve_locally = True
