@@ -7,3 +7,5 @@ lib/
 include/
 pip-selfcheck.json
 .idea/
+.backup*
+*test*

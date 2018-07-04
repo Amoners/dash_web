@@ -11,6 +11,7 @@ colors = {
     'text': '#ffffff'
 }
 
+
 all_types = {
     'exchanges': 'exchanges',
     'volume': 'trading volume',
@@ -46,15 +47,18 @@ app.layout = html.Div(children=[
     html.Link(href='/assets/style3.css', rel='stylesheet'),
     html.Link(href='/assets/test.js', rel='script'),
     dcc.Location(id='url', refresh=False),
-    html.Div(style={'backgroundColor': colors['background']}, children=[
+    html.Div([
+        html.Div(
+            className='subtitle'
+        ),
         html.H1(
             html.A('DASH WEB DEMO', href='/'),
-            style={
-                'textAlign': 'left',
-                'padding': '25px',
-                'color': colors['text']
-            }
-        )]),
+            className='title'
+        ),
+     ],
+        className='main_title row-fluid'
+    ),
+
     html.Div(
         style={'float': 'left', 'margin': '25px'},
         children=[
@@ -65,26 +69,25 @@ app.layout = html.Div(children=[
                 ),
                 html.Hr(style={'border-color': '#ddd'}),
                 html.Ul([
-                    html.Li(html.A('Exchanges List', href='/markets/exchanges'), className='exchanges'),
-                    html.Li(html.A('trading volume', href='/markets/volume', className='chart_link'),
-                            className='volume'),
-                    html.Li(html.A('rank', href='/markets/rank', className='chart_link'), className='rank'),
-                    html.Li(html.A('price', href='/markets/price', className='chart_link'), className='price'),
-                    html.Li(html.A('Price + Volume', href='/markets/price_volume', className='chart_link'),
+                    html.Li(dcc.Link(html.A('Exchanges List'),  href='/markets/exchanges'), className='exchanges'),
+                    html.Li(dcc.Link(html.A('trading volume', className='chart_link'), href='/markets/volume'), className='volume'),
+                    html.Li(dcc.Link(html.A('rank', className='chart_link'), href='/markets/rank'),  className='rank'),
+                    html.Li(dcc.Link(html.A('price',  className='chart_link'), href='/markets/price'),className='price'),
+                    html.Li(dcc.Link(html.A('Price + Volume', className='chart_link'), href='/markets/price_volume'),
                             className='price_volume'),
-                    html.Li(html.A('Market Cap', href='/markets/market_cap', className='chart_link'),
+                    html.Li(dcc.Link(html.A('Market Cap', className='chart_link'), href='/markets/market_cap'),
                             className='market_cap'),
-                    html.Li(html.A('Trades Per Minute', href='/markets/tradespm', className='chart_link'),
+                    html.Li(dcc.Link(html.A('Trades Per Minute',className='chart_link'),  href='/markets/tradespm'),
                             className='tradespm'),
-                    html.Li(html.A('Volatility', href='/markets/volatility', className='chart_link'),
+                    html.Li(dcc.Link(html.A('Volatility', className='chart_link'), href='/markets/volatility'),
                             className='volatility'),
-                    html.Li(html.A('Arbitrage', href='/markets/arbitrage', className='chart_link'),
+                    html.Li(dcc.Link(html.A('Arbitrage', className='chart_link'), href='/markets/arbitrage'),
                             className='arbitrage'),
-                    html.Li(html.A('Combined Order Book', href='/markets/books'), className='books)'),
-                    html.Li(html.A('Bid/Ask Spread', href='/markets/spread', className='chart_link'),
+                    html.Li(dcc.Link(html.A('Combined Order Book'), href='/markets/books'),  className='books)'),
+                    html.Li(dcc.Link(html.A('Bid/Ask Spread', className='chart_link'), href='/markets/spread'),
                             className='spread'),
-                    html.Li(html.A('Bid/Ask Sum', href='/markets/bidask_sum', className='chart_link'),
-                            className='bidask_sum'),
+                    html.Li(dcc.Link(html.A('Bid/Ask Sum',className='chart_link'), href='/markets/bidask_sum'),
+                            className='bidask_sum')
                 ],
                     className='nav nav-tabs nav-stacked data_type')
             ]),
@@ -95,18 +98,18 @@ app.layout = html.Div(children=[
                 ),
                 html.Hr(style={'border-color': '#ddd'}),
                 html.Ul([
-                    html.Li(html.A('Hashrate', href='/blockchain/hashrate', className='chart_link'),
+                    html.Li(dcc.Link(html.A('Hashrate', className='chart_link'), href='/blockchain/hashrate'),
                             className='hashrate'),
-                    html.Li(html.A('Mining Difficulty', href='/blockchain/difficulty', className='chart_link'),
+                    html.Li(dcc.Link(html.A('Mining Difficulty', className='chart_link'),href='/blockchain/difficulty'),
                             className='difficulty'),
-                    html.Li(html.A('Block Size', href='/blockchain/size', className='chart_link'), className='size'),
-                    html.Li(html.A('Block Version', href='/blockchain/block_version', className='chart_link'),
+                    html.Li(dcc.Link(html.A('Block Size', className='chart_link'),href='/blockchain/size'),  className='size'),
+                    html.Li(dcc.Link(html.A('Block Version',className='chart_link'), href='/blockchain/block_version'),
                             className='block_version'),
-                    html.Li(html.A('Number Of Transactions', href='/blockchain/tx_count', className='chart_link'),
+                    html.Li(dcc.Link(html.A('Number Of Transactions', className='chart_link'),href='/blockchain/tx_count'),
                             className='tx_count'),
-                    html.Li(html.A('Time Between Blocks', href='/blockchain/block_time', className='chart_link'),
+                    html.Li(dcc.Link(html.A('Time Between Blocks', className='chart_link'),href='/blockchain/block_time'),
                             className='block_time'),
-                    html.Li(html.A('Block Size Votes', href='/blockchain/block_size_votes', className='chart_link'),
+                    html.Li(dcc.Link(html.A('Block Size Votes', className='chart_link'),href='/blockchain/block_size_votes'),
                             className='block_size_votes')
                 ],
                     className='nav nav-tabs nav-stacked data_type')

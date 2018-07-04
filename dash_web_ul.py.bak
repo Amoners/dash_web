@@ -1,0 +1,120 @@
+# -*- coding: utf-8 -*-
+import dash
+import dash_html_components as html
+import dash_core_components as dcc
+from dash.dependencies import Input, Output
+import keywordsJson as kwj
+import json
+
+app = dash.Dash(__name__, static_folder='assets')
+
+colors = {
+    'background': '#000000',
+    'text': '#ffffff'
+}
+
+all_types = {
+    'exchanges': 'exchanges',
+    'volume': 'trading volume',
+    'rank': 'Exchanges ranking',
+    'price': 'price',
+    'price_volume': 'price and volume',
+    'market_cap': 'market capitalization',
+    'tradespm': 'Number of trades per minute',
+    'volatility': 'price volatility',
+    'arbitrage': 'markets arbitrage table',
+    'books': 'Combined order book',
+    'spread': 'Bid-ask spread',
+    'bidask_sum': 'Bid/ask sum within 10% range from the price',
+    'hashrate': 'hashrate',
+    'difficulty': 'mining difficulty',
+    'size': 'blocks size',
+    'block_version': 'blocks version',
+    'tx_count': 'Number of transactions',
+    'block_time': 'Average time to mine a block in minutes',
+    'block_size_votes': 'Block size votes'
+}
+
+app.css.config.serve_locally = True
+app.scripts.append_script({
+    'external_url': 'https://code.jquery.com/jquery-3.3.1.min.js',
+    'external_url': '/assets/test.js'
+})
+
+app.layout = html.Div(children=[
+    html.Link(href='/assets/demo.css', rel='stylesheet'),
+    html.Link(href='/assets/style1.css', rel='stylesheet'),
+    html.Link(href='/assets/style2.css', rel='stylesheet'),
+    html.Link(href='/assets/style3.css', rel='stylesheet'),
+    html.Link(href='/assets/test.js', rel='script'),
+    dcc.Location(id='url', refresh=False),
+    html.Div(style={'backgroundColor': colors['background']}, children=[
+        html.H1(
+            html.A('DASH WEB DEMO', href='/'),
+            style={
+                'textAlign': 'left',
+                'padding': '25px',
+                'color': colors['text']
+            }
+        )]),
+    html.Div(
+        style={'float': 'left', 'margin': '25px'},
+        children=[
+            html.Div(children=[
+                html.H3(
+                    children='Markets',
+                    className='center'
+                ),
+                html.Hr(style={'border-color': '#ddd'}),
+                html.Ul(id='market',
+                        key='market',
+                        className='nav nav-tabs nav-stacked data_type')
+            ]),
+            html.Div(children=[
+                html.H3(
+                    children='Blockchain',
+                    className='center'
+                ),
+                html.Hr(style={'border-color': '#ddd'}),
+                html.Ul(id='blockchain',
+                        className='nav nav-tabs nav-stacked data_type')
+            ])
+        ]),
+    html.Div(id='plot_type')
+])
+
+
+def create_div(pathname):
+    if pathname is None:
+        pass
+    else:
+        types = pathname.split('/')[2]
+        return html.Div([
+            html.H1(
+                children=all_types[types],
+                style={
+                    'textAlign': 'center',
+                    'color': colors['background'],
+                }
+            )
+
+        ])
+
+
+@app.callback(Output("market", "children"),
+              [Input('market', 'key')])
+def get_market_item(word_key):
+    template = kwj.gen_html_item(word_key)
+    return template
+    # for keys in kwj.get_kw():
+    #     return kwj.gen_html_item('market', keys)
+
+
+@app.callback(Output('plot_type', 'children'),
+              [Input('url', 'pathname')])
+def display_page(pathname):
+    return create_div(pathname)
+
+
+if __name__ == '__main__':
+    app.run_server(host='0.0.0.0')
