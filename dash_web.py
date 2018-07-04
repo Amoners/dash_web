@@ -35,87 +35,110 @@ all_types = {
 }
 
 app.css.config.serve_locally = True
+app.scripts.append_script({
+    'external_url': 'https://code.jquery.com/jquery-3.3.1.min.js',
+    'external_url': '/assets/test.js'
+})
 
 app.layout = html.Div(children=[
     html.Link(href='/assets/demo.css', rel='stylesheet'),
+    html.Link(href='/assets/style1.css', rel='stylesheet'),
+    html.Link(href='/assets/style2.css', rel='stylesheet'),
+    html.Link(href='/assets/style3.css', rel='stylesheet'),
+    html.Link(href='/assets/test.js', rel='script'),
     dcc.Location(id='url', refresh=False),
-    html.Div(style={'backgroundColor': colors['background']}, children=[
+    html.Div([
+        html.Div(
+            className='subtitle'
+        ),
         html.H1(
-            html.A('DASH WEB DEMO', href='/'),
-            # children='DASH WEB DEMO',
-            style={
-                'textAlign': 'left',
-                'padding': '25px',
-                'color': colors['text']
-            }
-        )]),
-    html.Div(style={'float': 'left'}, children=[
-        html.Div(children=[
-            html.H1(
-                children='Markets',
-                style={
-                    'textAlign': 'center',
-                    'color': colors['background'],
-                }
-            ),
-            html.Hr(),
-            dcc.Markdown('''
-            * [Exchanges List](/markets/exchanges)
-            * [Trading Volume](/markets/volume)
-            * [Rank](/markets/rank)
-            * [Price](/markets/price)
-            * [Price + Volume](/markets/price_volume)
-            * [Market Cap](/markets/market_cap)
-            * [Trades Per Minute](/markets/tradespm)
-            * [Volatility](/markets/volatility)
-            * [Arbitrage](/markets/arbitrage)
-            * [Combined Order Book](/markets/books)
-            * [Bid/Ask Spread](/markets/spread)
-            * [Bid/Ask Sum](/markets/bidask_sum)
-        '''.replace('    ', '')),
+            style={'margin': '25px'},
+            children=html.A('DASH WEB DEMO', href='/'),
+            className='title'
+        ),
+     ],
+        className='main_title row-fluid'
+    ),
 
+    html.Div(
+        style={'float': 'left', 'margin': '25px'},
+        children=[
+            html.Div(children=[
+                html.H3(
+                    children='Markets',
+                    className='center'
+                ),
+                html.Hr(style={'border-color': '#ddd'}),
+                html.Ul([
+                    html.Li(dcc.Link(html.A('Exchanges List'),  href='/markets/exchanges'), className='exchanges'),
+                    html.Li(dcc.Link(html.A(id='volume', children='trading volume', className='chart_link'), href='/markets/volume'), className='volume'),
+                    html.Li(dcc.Link(html.A('rank', className='chart_link'), href='/markets/rank'),  className='rank'),
+                    html.Li(dcc.Link(html.A('price',  className='chart_link'), href='/markets/price'),className='price'),
+                    html.Li(dcc.Link(html.A('Price + Volume', className='chart_link'), href='/markets/price_volume'),
+                            className='price_volume'),
+                    html.Li(dcc.Link(html.A('Market Cap', className='chart_link'), href='/markets/market_cap'),
+                            className='market_cap'),
+                    html.Li(dcc.Link(html.A('Trades Per Minute',className='chart_link'),  href='/markets/tradespm'),
+                            className='tradespm'),
+                    html.Li(dcc.Link(html.A('Volatility', className='chart_link'), href='/markets/volatility'),
+                            className='volatility'),
+                    html.Li(dcc.Link(html.A('Arbitrage', className='chart_link'), href='/markets/arbitrage'),
+                            className='arbitrage'),
+                    html.Li(dcc.Link(html.A('Combined Order Book'), href='/markets/books'),  className='books)'),
+                    html.Li(dcc.Link(html.A('Bid/Ask Spread', className='chart_link'), href='/markets/spread'),
+                            className='spread'),
+                    html.Li(dcc.Link(html.A('Bid/Ask Sum',className='chart_link'), href='/markets/bidask_sum'),
+                            className='bidask_sum')
+                ],
+                    className='nav nav-tabs nav-stacked data_type')
+            ]),
+            html.Div(children=[
+                html.H3(
+                    children='Blockchain',
+                    className='center'
+                ),
+                html.Hr(style={'border-color': '#ddd'}),
+                html.Ul([
+                    html.Li(dcc.Link(html.A('Hashrate', className='chart_link'), href='/blockchain/hashrate'),
+                            className='hashrate'),
+                    html.Li(dcc.Link(html.A('Mining Difficulty', className='chart_link'),href='/blockchain/difficulty'),
+                            className='difficulty'),
+                    html.Li(dcc.Link(html.A('Block Size', className='chart_link'),href='/blockchain/size'),  className='size'),
+                    html.Li(dcc.Link(html.A('Block Version',className='chart_link'), href='/blockchain/block_version'),
+                            className='block_version'),
+                    html.Li(dcc.Link(html.A('Number Of Transactions', className='chart_link'),href='/blockchain/tx_count'),
+                            className='tx_count'),
+                    html.Li(dcc.Link(html.A('Time Between Blocks', className='chart_link'),href='/blockchain/block_time'),
+                            className='block_time'),
+                    html.Li(dcc.Link(html.A('Block Size Votes', className='chart_link'),href='/blockchain/block_size_votes'),
+                            className='block_size_votes')
+                ],
+                    className='nav nav-tabs nav-stacked data_type')
+            ])
         ]),
-        html.Div(children=[
-            html.H1(
-                children='Blockchain',
-                style={
-                    'textAlign': 'center',
-                    'color': colors['background'],
-                }
-            ),
-            html.Hr(),
-            dcc.Markdown('''
-            * [Hashrate](/blockchain/hashrate)
-            * [Mining Difficulty](/blockchain/difficulty)
-            * [Block Size](/blockchain/size)
-            * [Block Version](/blockchain/block_version)
-            * [Number Of Transactions](/blockchain/tx_count)
-            * [Time Between Blocks](/blockchain/block_time)
-            * [Block Size Votes](/blockchain/block_size_votes)
-       '''.replace('    ', '')),
-
-        ])
-    ]),
     html.Div(id='plot_type')
 ])
 
 
 def create_div(pathname):
-    types = pathname.split('/')[2]
-    return html.Div([
-        html.H1(
-            children=all_types[types],
-            style={
-                'textAlign': 'center',
-                'color': colors['background'],
-            }
-        )
+    if pathname is '/' or pathname is None:
+        pass
+    else:
+        types = pathname.split('/')[2]
+        return html.Div([
+            html.H1(
+                children=all_types[types],
+                style={
+                    'textAlign': 'center',
+                    'color': colors['background'],
+                }
+            )
 
-    ])
+        ])
 
 
-@app.callback(dash.dependencies.Output('plot_type', 'children'),
-              [dash.dependencies.Input('url', 'pathname')])
+@app.callback(Output('plot_type', 'children'),
+              [Input('url', 'pathname')])
 def display_page(pathname):
     return create_div(pathname)
 

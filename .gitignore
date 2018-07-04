@@ -8,4 +8,4 @@ include/
 pip-selfcheck.json
 .idea/
 .backup*
-*test*
+test_*
