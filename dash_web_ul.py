@@ -52,7 +52,8 @@ app.layout = html.Div(children=[
             className='subtitle'
         ),
         html.H1(
-            html.A('DASH WEB DEMO', href='/'),
+            style={'margin': '25px'},
+            children=html.A('DASH WEB DEMO', href='/'),
             className='title'
         ),
      ],
