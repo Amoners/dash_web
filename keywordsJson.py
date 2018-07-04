@@ -1,7 +1,7 @@
 import dash_html_components as html
 import dash_core_components as dcc
 ks_list = {
-    'market': {
+    'markets': {
         'exchanges': {
             'path': '/markets/exchanges',
             'title': 'Exchanges List',
@@ -107,7 +107,7 @@ ks_list = {
             'li': 'Number Of Transactions'
         },
         'block_time': {
-            'path': 'blockchain/block_time',
+            'path': '/blockchain/block_time',
             'title': 'Average time to mine a block in minutes',
             'class': 'block_time',
             'li': 'Time Between Blocks'
@@ -122,18 +122,23 @@ ks_list = {
 }
 
 
-def get_kw_value(types='market', kw='exchanges', info='all'):
+def get_kw_value(types='markets', kw='exchanges', info='all'):
     if info == 'all':
         return ks_list[types][kw]
     else:
         return ks_list[types][kw][info]
 
 
-def get_kw(types='market'):
+def get_kw(types='markets'):
     return ks_list[types].keys()
 
 
-def gen_html_item(types='market', kw='exchanges'):
+def gen_html_item(types='markets', kw='exchanges'):
     return html.Li(dcc.Link(html.A('{}'.format(ks_list[types][kw]['li'],)), href='{}'.format(ks_list[types][kw]['path']), className='{}'.format(ks_list[types][kw]['class'])))
+    #return "html.Li(Link(children=A('" + ks_list[types][kw]['li'] + "'), href='" + ks_list[types][kw]['path'] + "', className='" + ks_list[types][kw]['class'] + "'),"
+
+
+if __name__ == '__main__':
+    get_kw_value()
 
 

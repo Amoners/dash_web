@@ -66,8 +66,8 @@ app.layout = html.Div(children=[
                     className='center'
                 ),
                 html.Hr(style={'border-color': '#ddd'}),
-                html.Ul(id='market',
-                        key='market',
+                html.Ul(id='markets',
+                        key='markets',
                         className='nav nav-tabs nav-stacked data_type')
             ]),
             html.Div(children=[
@@ -77,6 +77,7 @@ app.layout = html.Div(children=[
                 ),
                 html.Hr(style={'border-color': '#ddd'}),
                 html.Ul(id='blockchain',
+                        key='blockchain',
                         className='nav nav-tabs nav-stacked data_type')
             ])
         ]),
@@ -85,13 +86,15 @@ app.layout = html.Div(children=[
 
 
 def create_div(pathname):
-    if pathname is None:
+    if pathname is None or pathname == '/':
         pass
     else:
-        types = pathname.split('/')[2]
+
+        types = pathname.split('/')[1]
+        kw = pathname.split('/')[2]
         return html.Div([
             html.H1(
-                children=all_types[types],
+                children=kwj.get_kw_value(types, kw, 'title'),
                 style={
                     'textAlign': 'center',
                     'color': colors['background'],
@@ -101,13 +104,59 @@ def create_div(pathname):
         ])
 
 
-@app.callback(Output("market", "children"),
-              [Input('market', 'key')])
+@app.callback(Output("markets", "children"),
+              [Input('markets', 'key')])
 def get_market_item(word_key):
-    template = kwj.gen_html_item(word_key)
+    kws = kwj.get_kw(word_key)
+    max = len(kws)
+    i = 1
+    item = locals()
+    for key in kws:
+        item['item' + str(i)] = kwj.gen_html_item(word_key, key)
+        if i < max:
+            i = i + 1
+        else:
+            break
+    template = [
+        item['item1'],
+        item['item2'],
+        item['item3'],
+        item['item4'],
+        item['item5'],
+        item['item6'],
+        item['item7'],
+        item['item8'],
+        item['item9'],
+        item['item10'],
+        item['item11'],
+        item['item12'],
+    ]
     return template
-    # for keys in kwj.get_kw():
-    #     return kwj.gen_html_item('market', keys)
+
+
+@app.callback(Output("blockchain", "children"),
+              [Input('blockchain', 'key')])
+def get_blockchain_item(word_key):
+    kws = kwj.get_kw(word_key)
+    max = len(kws)
+    i = 1
+    item = locals()
+    for key in kws:
+        item['item' + str(i)] = kwj.gen_html_item(word_key, key)
+        if i < max:
+            i = i + 1
+        else:
+            break
+    template = [
+        item['item1'],
+        item['item2'],
+        item['item3'],
+        item['item4'],
+        item['item5'],
+        item['item6'],
+        item['item7'],
+    ]
+    return template
 
 
 @app.callback(Output('plot_type', 'children'),

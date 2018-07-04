@@ -137,8 +137,8 @@ def create_div(pathname):
         ])
 
 
-@app.callback(dash.dependencies.Output('plot_type', 'children'),
-              [dash.dependencies.Input('url', 'pathname')])
+@app.callback(Output('plot_type', 'children'),
+              [Input('url', 'pathname')])
 def display_page(pathname):
     return create_div(pathname)
 
