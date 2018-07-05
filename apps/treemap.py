@@ -69,6 +69,7 @@ def treemap(value):
     annotations = []
     counter = 0
 
+    print(test_data['ETH']['marketcap'])
     for r in rects:
         coin_name = coin_name_list2[counter]
         if test_data[coin_name]['marketcap'] > 0:
@@ -90,7 +91,8 @@ def treemap(value):
             dict(
                 x=r['x'] + (r['dx'] / 2),
                 y=r['y'] + (r['dy'] / 2),
-                text=coin_name_list2[counter],
+                text="<span><a id='a" + str(counter) + "'>" + coin_name_list2[counter] + "</a><br> <b>"+ str(test_data[coin_name_list2[counter]]['marketcap']) +"</b></span>",
+                #text=coin_name_list2[counter],
                 showarrow=False
             )
         )
@@ -111,7 +113,7 @@ def treemap(value):
             yaxis={'showgrid': False, 'zeroline': False, 'showticklabels': False},
             shapes=shapes,
             annotations=annotations,
-            hovermode='closest',
+            hovermode=False,
         )
     }
 
