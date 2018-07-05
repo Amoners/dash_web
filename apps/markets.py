@@ -6,7 +6,7 @@ from dash.dependencies import Input, Output
 import keywordsJson as kwj
 
 
-app = dash.Dash(__name__, static_folder='assets')
+app = dash.Dash(__name__, static_folder='../assets')
 
 colors = {
     'background': '#000000',
@@ -20,11 +20,11 @@ app.scripts.append_script({
 })
 
 app.layout = html.Div(children=[
-    html.Link(href='/assets/demo.css', rel='stylesheet'),
-    html.Link(href='/assets/style1.css', rel='stylesheet'),
-    html.Link(href='/assets/style2.css', rel='stylesheet'),
-    html.Link(href='/assets/style3.css', rel='stylesheet'),
-    html.Link(href='/assets/test.js', rel='script'),
+    html.Link(href='../assets/demo.css', rel='stylesheet'),
+    html.Link(href='../assets/style1.css', rel='stylesheet'),
+    html.Link(href='../assets/style2.css', rel='stylesheet'),
+    html.Link(href='../assets/style3.css', rel='stylesheet'),
+    html.Link(href='../assets/test.js', rel='script'),
     dcc.Location(id='url', refresh=False),
     html.Div(style={'backgroundColor': colors['background']}, children=[
         html.H1(
