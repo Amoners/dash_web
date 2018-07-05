@@ -16,7 +16,7 @@ colors = {
 app.css.config.serve_locally = True
 app.scripts.append_script({
     'external_url': 'https://code.jquery.com/jquery-3.3.1.min.js',
-    'external_url': '/assets/test.js'
+    'external_url': '../assets/test.js'
 })
 
 app.layout = html.Div(children=[
