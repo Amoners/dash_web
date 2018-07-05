@@ -86,29 +86,9 @@ def create_div(pathname):
               [Input('markets', 'key')])
 def get_market_item(word_key):
     kws = kwj.get_kw(word_key)
-    max = len(kws)
-    i = 1
-    item = locals()
+    template = []
     for key in kws:
-        item['item' + str(i)] = kwj.gen_html_item(word_key, key)
-        if i < max:
-            i = i + 1
-        else:
-            break
-    template = [
-        item['item1'],
-        item['item2'],
-        item['item3'],
-        item['item4'],
-        item['item5'],
-        item['item6'],
-        item['item7'],
-        item['item8'],
-        item['item9'],
-        item['item10'],
-        item['item11'],
-        item['item12'],
-    ]
+        template.append(kwj.gen_html_item(word_key, key))
     return template
 
 
@@ -116,24 +96,9 @@ def get_market_item(word_key):
               [Input('blockchain', 'key')])
 def get_blockchain_item(word_key):
     kws = kwj.get_kw(word_key)
-    max = len(kws)
-    i = 1
-    item = locals()
+    template = []
     for key in kws:
-        item['item' + str(i)] = kwj.gen_html_item(word_key, key)
-        if i < max:
-            i = i + 1
-        else:
-            break
-    template = [
-        item['item1'],
-        item['item2'],
-        item['item3'],
-        item['item4'],
-        item['item5'],
-        item['item6'],
-        item['item7'],
-    ]
+        template.append(kwj.gen_html_item(word_key, key))
     return template
 
 
