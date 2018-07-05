@@ -139,6 +139,7 @@ def gen_html_item(types='markets', kw='exchanges'):
 
 
 if __name__ == '__main__':
-    get_kw_value()
+    print(type(get_kw()))
+    print(get_kw())
 
 
