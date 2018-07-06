@@ -1,7 +1,7 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, Event, State
 
 import plotly.graph_objs as go
 import squarify
@@ -9,15 +9,39 @@ import squarify
 app = dash.Dash()
 server = app.server
 app.config.supress_callback_exceptions = True
+app.css.config.serve_locally = True
+app.scripts.append_script({
+    'external_url': 'https://code.jquery.com/jquery-3.3.1.min.js',
+    'external_url': '/assets/demo.js'
+})
 
 app.layout = html.Div([
-    dcc.Graph(id='treemap')
+    dcc.Graph(id='treemap'),
+    html.A(style={ 'position': 'relative'}, id='hover_show',
+           children=['abc',
+                     html.Div(style={
+                         'position': 'absolute',
+                         'left': '10px',
+                         'top': '10px'
+                     },
+                              id='show_data')]
+    ),
 ])
+
+@app.callback(
+     Output('show_data', 'children'),
+     [],
+     [],
+     events=[Event('hover_show', 'click')]
+ )
+def show_info():
+    return html.Div('show data')
 
 
 @app.callback(
     Output('treemap', 'figure'),
-    [Input('treemap', 'value')])
+    [Input('treemap', 'value')],
+)
 def treemap(value):
     x = 0.
     y = 0.
@@ -69,7 +93,6 @@ def treemap(value):
     annotations = []
     counter = 0
 
-    print(test_data['ETH']['marketcap'])
     for r in rects:
         coin_name = coin_name_list2[counter]
         if test_data[coin_name]['marketcap'] > 0:
@@ -91,7 +114,7 @@ def treemap(value):
             dict(
                 x=r['x'] + (r['dx'] / 2),
                 y=r['y'] + (r['dy'] / 2),
-                text="<span><a id='a" + str(counter) + "'>" + coin_name_list2[counter] + "</a><br> <b>"+ str(test_data[coin_name_list2[counter]]['marketcap']) +"</b></span>",
+                text="<span><a id='hover_info'>" + coin_name_list2[counter] + "</a><br> <b>"+ str(test_data[coin_name_list2[counter]]['marketcap']) +"</b></span>",
                 #text=coin_name_list2[counter],
                 showarrow=False
             )
