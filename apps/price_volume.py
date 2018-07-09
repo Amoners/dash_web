@@ -48,7 +48,7 @@ app.layout = html.Div(children=[
         children=[
             html.Div([
                 html.Div(
-                    style={'float': 'left'},
+                    className='span2',
                     children=[
                         html.Div(children=[
                             html.H3(children='Markets', className='center'),
@@ -66,7 +66,7 @@ app.layout = html.Div(children=[
                     html.Div(id='chart'),
 
                 ],
-                    className='span10 main_content'
+                    className='span10'
                 ),
             ],
                 className='row-fluid'
@@ -109,7 +109,7 @@ def create_div(pathname):
                 yaxis=dict(title='price'),
                 yaxis2=dict(title='volume', overlaying='y', side='right')
             )
-        return html.Div([
+            return html.Div([
                 html.Div(
                     html.Div(
                         html.H3(
