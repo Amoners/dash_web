@@ -82,6 +82,33 @@ def create_div(pathname):
     else:
         types = pathname.split('/')[1]
         kw = pathname.split('/')[2]
+        api_url = "https://data.bitcoinity.org/chart_data?data_type=price_volume&currency=USD&exchange=all&compare=no&volume_unit=curr&function=none&timespan=3d&groups_count=10&resolution=day&chart_type=line_bar&smoothing=linear&scale_type=lin&chart_types="
+        res = requests.get(api_url)
+        if res.status_code == 200:
+            a = res.json()
+            fig = tls.make_subplots(rows=2, cols=1, shared_xaxes=True),
+            stime = [2015, 2016, 2017]
+            price = [l[1] for l in a['data'][0]['values']]
+            volume = [t[1] for t in a['data'][1]['values']]
+            trace1 = go.Bar(
+                x=stime,
+                y=price,
+                x0=3,
+                name='price[BTC/USD]'
+            )
+            trace2 = go.Scatter(
+                x=stime,
+                x0=3,
+                y=volume,
+                name='volume[USD]',
+                yaxis='y2'
+            )
+            data = [trace1, trace2]
+            layout = go.Layout(
+                title='Price and Volume',
+                yaxis=dict(title='price'),
+                yaxis2=dict(title='volume', overlaying='y', side='right')
+            )
         return html.Div([
                 html.Div(
                     html.Div(
@@ -135,6 +162,9 @@ def create_div(pathname):
                 html.Div([
                     dcc.Graph(
                         id='abccc',
+                        figure = {
+                            'data': data,
+                            'layout': layout},
                     ),
 
                 ],
@@ -158,39 +188,6 @@ def get_market_item(word_key):
         template.append(kwj.gen_html_item(word_key, key))
     return template
 
-
-@app.callback(Output('abccc', 'figure'),
-              [Input('url', 'pathname')])
-def gene_chart(key):
-    api_url = "https://data.bitcoinity.org/chart_data?data_type=price_volume&currency=USD&exchange=all&compare=no&volume_unit=curr&function=none&timespan=3d&groups_count=10&resolution=day&chart_type=line_bar&smoothing=linear&scale_type=lin&chart_types="
-    res = requests.get(api_url)
-    if res.status_code == 200:
-        a = res.json()
-        fig = tls.make_subplots(rows=2, cols=1, shared_xaxes=True),
-        stime = [2015, 2016, 2017]
-        price = [l[1] for l in a['data'][0]['values']]
-        volume = [t[1] for t in a['data'][1]['values']]
-        trace1 = go.Bar(
-            x=stime,
-            y=price,
-            x0=3,
-            name='price[BTC/USD]'
-        )
-        trace2 = go.Scatter(
-            x=stime,
-            x0=3,
-            y=volume,
-            name='volume[USD]',
-            yaxis='y2'
-        )
-        data = [trace1, trace2]
-        layout = go.Layout(
-            title='Price and Volume',
-            yaxis=dict(title='price'),
-            yaxis2=dict(title='volume', overlaying='y', side='right')
-        )
-        fig = go.Figure(data=data, layout=layout)
-        return fig
 # @app.callback(Output("blockchain", "children"),
 #               [Input('blockchain', 'key')])
 # def get_blockchain_item(word_key):
