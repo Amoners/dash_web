@@ -3,7 +3,7 @@ import dash
 import dash_html_components as html
 import dash_core_components as dcc
 from dash.dependencies import Input, Output
-import keywordsJson as kwj
+import apps.keywordsJson as kwj
 
 
 app = dash.Dash(__name__, static_folder='../assets')
@@ -14,17 +14,21 @@ colors = {
 }
 
 app.css.config.serve_locally = True
+#app.scripts.config.serve_locally = True
 app.scripts.append_script({
-    'external_url': 'https://code.jquery.com/jquery-3.3.1.min.js',
-    'external_url': '../assets/demo.js'
+    'external_url': '../assets/jquery-3.3.1.min.js',
 })
+app.scripts.append_script({
+     'external_url': '../assets/demo.js'
+ })
 
 app.layout = html.Div(children=[
     html.Link(href='../assets/demo.css', rel='stylesheet'),
     html.Link(href='../assets/style1.css', rel='stylesheet'),
     html.Link(href='../assets/style2.css', rel='stylesheet'),
     html.Link(href='../assets/style3.css', rel='stylesheet'),
-    html.Link(href='../assets/demo.js', rel='script'),
+    #html.Link(href='../assets/jquery-3.3.1.min.js', rel='script'),
+    #html.Link(href='../assets/demo.js', rel='script'),
     dcc.Location(id='url', refresh=False),
     html.Div(style={'backgroundColor': colors['background']}, children=[
         html.H1(
@@ -109,4 +113,4 @@ def display_page(pathname):
 
 
 if __name__ == '__main__':
-    app.run_server(host='0.0.0.0')
+    app.run_server(host='0.0.0.0', debug=True)
