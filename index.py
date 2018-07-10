@@ -51,9 +51,16 @@ app.layout = html.Div(children=[
     ],
         className='navbar navbar-expand-lg navbar-light bg-light'),
     html.Div(
+        style= {'position': 'relative'},
         children=[
             html.Div(
-                style={'width': '120px', 'float': 'left'},
+                style={
+                    'width': '150px',
+                    'float': 'left',
+                    'position': 'relative',
+                    'top': '80px',
+                    'left': '10px'
+                },
                 children=[
                     html.Div(
                         children=[
@@ -85,7 +92,7 @@ app.layout = html.Div(children=[
             html.Div(
                 id='indexChart',
                 style={
-                    'width': '100%',
+                    'width': '80%',
                     'margin': '0 auto',
                     'position': 'relative',
                     'height': '550px'
